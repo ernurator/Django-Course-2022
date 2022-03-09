@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 
 def get_todo_list_items(get_done_items=False):
-    with open('./main/todo_list.json', 'r') as f:
+    with open('./data/todo_list.json', 'r') as f:
         items = [item for item in json.load(f) if item['done'] is get_done_items]
     return items
 
