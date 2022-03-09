@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+header {
+    background: #333;
+    color: white;
+    padding: 10px;
+    font-size: 1.5em;
+}
+
+h1 {
+    margin: 0;
+}
+
+button {
+    display: block;
+    border: 0;
+    border-radius: 5px;
+    padding: 7px 10px;
+    font-size: 1em;
+}
+
+.col-blue {
+    background: dodgerblue;
+    color: white;
+}
+
+.col-cyan {
+    background: darkturquoise;
+    color: white;
+}
+
+.col-yellow {
+    background: #ffc628;
+    color: black;
+}
+
+.col-red {
+    background: crimson;
+    color: white;
+}
+
+.todo-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px 0;
+    width: 80%;
+}
+
+.todo-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0;
+    padding: 15px 0;
+}
+
+.bottom-border {
+    border-bottom: 1px solid #ddd;
+}
+
+.todo-row-columns {
+    flex: 1 1 0;
+}
+
+.small-right-margin {
+    margin: 0 5px 0 0;
+}
+
