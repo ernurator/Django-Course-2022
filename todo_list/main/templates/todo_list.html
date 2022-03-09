@@ -1,7 +1,11 @@
+{% load static %}
 <title>{% block title %}{% endblock %}</title>
-<ul>
-{{title}}
-{% for user in users %}
-  <li><a href="{{ user.url }}">{{ user.username }}</a></li>
-{% endfor %}
-</ul>
+<link href="{% static 'style.css' %}" rel="stylesheet">
+
+<div>
+    {% for item in todo_list %}
+        <p>
+        {{ item.name }} | {{ item.created }} | {{ item.due }} | {{ item.owner }} | {{ item.mark }}
+        </p>
+    {% endfor %}
+</div>

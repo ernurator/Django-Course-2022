@@ -1,10 +1,12 @@
+import json
+
 from django.shortcuts import render
-from django.template import Context
 
 
-# Create your views here.
 def todo_list_view(request):
-    return render(request, 'todo_list.html', context={'title': 'some test title'})
+    with open('./main/todo_list.json', 'r') as f:
+        todo_list = json.load(f)
+    return render(request, 'todo_list.html', context={'todo_list': todo_list})
 
 
 def completed_todos_view(request):
