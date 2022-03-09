@@ -1,16 +1,23 @@
 [
   {
+    "name": "Task 0",
+    "created": "10/03/2022",
+    "due": "12/09/2018",
+    "owner": "admin",
+    "done": true
+  },
+  {
     "name": "Task 1",
     "created": "10/03/2022",
     "due": "12/09/2018",
     "owner": "admin",
-    "mark": "done"
+    "done": false
   },
   {
     "name": "Task 2",
     "created": "10/03/2022",
     "due": "12/09/2018",
     "owner": "admin",
-    "mark": "done"
+    "done":  false
   }
 ]
