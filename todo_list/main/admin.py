@@ -1,3 +1,15 @@
 from django.contrib import admin
 
-# Register your models here.
+from . import models
+
+
+@admin.register(models.TaskModel)
+class TaskModelAdmin(admin.ModelAdmin):
+    list_filter = ('name', 'owner')
+    search_fields = ('name',)
+
+
+@admin.register(models.ToDoListModel)
+class ToDoListModelAdmin(admin.ModelAdmin):
+    list_filter = ('name',)
+    search_fields = ('name',)

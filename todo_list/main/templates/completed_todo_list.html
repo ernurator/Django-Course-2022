@@ -12,7 +12,7 @@
             <button class="col-blue">Add task</button>
         </div>
         <div class="todo-row bottom-border">
-            <h1>Completed Tasks in "List 1"</h1>
+            <h1>Completed Tasks in "{{ todo_list_name }}"</h1>
         </div>
         <div class="todo-row bottom-border">
             {% with 'Task Created Due Owner Mark' as column_names %}
@@ -26,11 +26,11 @@
             <div class="todo-row bottom-border">
                 <div class="todo-row-columns">{{ item.name }}</div>
                 <div class="todo-row-columns">{{ item.created }}</div>
-                <div class="todo-row-columns">{{ item.due }}</div>
+                <div class="todo-row-columns">{{ item.due_to }}</div>
                 <div class="todo-row-columns">{{ item.owner }}</div>
                 <div class="todo-row-columns">
                     <button class="col-cyan">
-                        {% if item.done %}
+                        {% if item.is_done %}
                         Undone
                         {% else %}
                         Done
