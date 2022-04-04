@@ -42,12 +42,16 @@ class ToDoListAPIView(ListAPIView):
 
 
 class NotCompletedToDoListTasksAPIView(RetrieveAPIView):
+    # FIXME: currently serializer returns all list's tasks.
+    #  But the view is returning 404 if none of the list's tasks are not done.
     queryset = ToDoListModel.objects.prefetch_related('tasks').filter(tasks__is_done=False)
     serializer_class = ToDoListTasksSerializer
     lookup_url_kwarg = 'list_id'
 
 
 class CompletedToDoListTasksAPIView(RetrieveAPIView):
+    # FIXME: currently serializer returns all list's tasks.
+    #  But the view is returning 404 if none of the list's tasks are done.
     queryset = ToDoListModel.objects.prefetch_related('tasks').filter(tasks__is_done=True)
     serializer_class = ToDoListTasksSerializer
     lookup_url_kwarg = 'list_id'
