@@ -1,5 +1,5 @@
 {% load static %}
-<title>{% block title %}{% endblock %}</title>
+<title>TODO list</title>
 <link href="{% static 'style.css' %}" rel="stylesheet">
 
 <header>
@@ -12,7 +12,7 @@
             <button class="col-blue">Add task</button>
         </div>
         <div class="todo-row bottom-border">
-            <h1>Completed Tasks in "{{ todo_list_name }}"</h1>
+            <h1>Tasks in "{{ todo_list_name }}"</h1>
         </div>
         <div class="todo-row bottom-border">
             {% with 'Task Created Due Owner Mark' as column_names %}
@@ -41,7 +41,7 @@
         {% endfor %}
 
         <div class="todo-row">
-            <button class="small-right-margin col-yellow">View incomplete tasks</button>
+            <button class="small-right-margin col-yellow">View completed tasks</button>
             <button class="small-right-margin col-red">Delete this list</button>
         </div>
     </div>
