@@ -9,15 +9,6 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ToDoListTasksSerializer(serializers.ModelSerializer):
-    tasks = TaskSerializer
-
-    class Meta:
-        model = ToDoListModel
-        fields = ['tasks']
-        depth = 1
-
-
 class ToDoListDetailedSerializer(serializers.ModelSerializer):
     tasks = TaskSerializer
 

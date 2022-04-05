@@ -1,10 +1,10 @@
 from django.http import Http404
 from django.shortcuts import render
 
-from rest_framework.generics import RetrieveAPIView, ListAPIView
+from rest_framework.generics import ListAPIView
 
 from .models import TaskModel, ToDoListModel
-from .serializers import ToDoListTasksSerializer, ToDoListDetailedSerializer
+from .serializers import TaskSerializer, ToDoListDetailedSerializer
 
 
 def get_todo_list_items(todo_list_id, get_done_items=False):
@@ -41,17 +41,21 @@ class ToDoListAPIView(ListAPIView):
     serializer_class = ToDoListDetailedSerializer
 
 
-class NotCompletedToDoListTasksAPIView(RetrieveAPIView):
-    # FIXME: currently serializer returns all list's tasks.
-    #  But the view is returning 404 if none of the list's tasks are not done.
-    queryset = ToDoListModel.objects.prefetch_related('tasks').filter(tasks__is_done=False)
-    serializer_class = ToDoListTasksSerializer
-    lookup_url_kwarg = 'list_id'
+class NotCompletedToDoListTasksAPIView(ListAPIView):
+    queryset = TaskModel.objects.filter(is_done=False)
+    serializer_class = TaskSerializer
+
+    TO_DO_LIST_ID_URL_KWARG = 'list_id'
+
+    def get_queryset(self):
+        return self.queryset.filter(todo_list_id=self.kwargs[self.TO_DO_LIST_ID_URL_KWARG])
 
 
-class CompletedToDoListTasksAPIView(RetrieveAPIView):
-    # FIXME: currently serializer returns all list's tasks.
-    #  But the view is returning 404 if none of the list's tasks are done.
-    queryset = ToDoListModel.objects.prefetch_related('tasks').filter(tasks__is_done=True)
-    serializer_class = ToDoListTasksSerializer
-    lookup_url_kwarg = 'list_id'
+class CompletedToDoListTasksAPIView(ListAPIView):
+    queryset = TaskModel.objects.filter(is_done=True)
+    serializer_class = TaskSerializer
+
+    TO_DO_LIST_ID_URL_KWARG = 'list_id'
+
+    def get_queryset(self):
+        return self.queryset.filter(todo_list_id=self.kwargs[self.TO_DO_LIST_ID_URL_KWARG])
