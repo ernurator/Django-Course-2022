@@ -1,10 +1,14 @@
 from django.http import Http404
 from django.shortcuts import render
 
+from rest_framework import viewsets
+from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView
+from rest_framework.response import Response
+from rest_framework.status import HTTP_404_NOT_FOUND
 
-from .models import TaskModel, ToDoListModel
-from .serializers import TaskSerializer, ToDoListDetailedSerializer
+from .models import TaskModel, ToDoListModel, ToDoListGroupModel
+from .serializers import TaskSerializer, ToDoListReadSerializer, ToDoListCreateSerializer, ToDoListGroupModelSerializer
 
 
 def get_todo_list_items(todo_list_id, get_done_items=False):
@@ -18,7 +22,7 @@ def get_todo_list(todo_list_id):
     return todo_lists[0]
 
 
-def todo_list_view(request, list_id):
+def todo_list_view(request, list_id):  # Deprecated
     todo_list_items = get_todo_list_items(list_id)
     todo_list = get_todo_list(list_id)
     if not todo_list:
@@ -27,7 +31,7 @@ def todo_list_view(request, list_id):
                   context={'todo_list': todo_list_items, 'todo_list_name': todo_list.name})
 
 
-def completed_todos_view(request, list_id):
+def completed_todos_view(request, list_id):  # Deprecated
     todo_list_items = get_todo_list_items(list_id, get_done_items=True)
     todo_list = get_todo_list(list_id)
     if not todo_list:
@@ -36,12 +40,7 @@ def completed_todos_view(request, list_id):
                   context={'todo_list': todo_list_items, 'todo_list_name': todo_list.name})
 
 
-class ToDoListAPIView(ListAPIView):
-    queryset = ToDoListModel.objects.all()
-    serializer_class = ToDoListDetailedSerializer
-
-
-class NotCompletedToDoListTasksAPIView(ListAPIView):
+class NotCompletedToDoListTasksAPIView(ListAPIView):  # Deprecated
     queryset = TaskModel.objects.filter(is_done=False)
     serializer_class = TaskSerializer
 
@@ -51,7 +50,7 @@ class NotCompletedToDoListTasksAPIView(ListAPIView):
         return self.queryset.filter(todo_list_id=self.kwargs[self.TO_DO_LIST_ID_URL_KWARG])
 
 
-class CompletedToDoListTasksAPIView(ListAPIView):
+class CompletedToDoListTasksAPIView(ListAPIView):  # Deprecated
     queryset = TaskModel.objects.filter(is_done=True)
     serializer_class = TaskSerializer
 
@@ -59,3 +58,26 @@ class CompletedToDoListTasksAPIView(ListAPIView):
 
     def get_queryset(self):
         return self.queryset.filter(todo_list_id=self.kwargs[self.TO_DO_LIST_ID_URL_KWARG])
+
+
+class ToDoListGroupViewSet(viewsets.ModelViewSet):
+    queryset = ToDoListGroupModel.objects.all()
+    serializer_class = ToDoListGroupModelSerializer
+
+
+class ToDoListViewSet(viewsets.ModelViewSet):
+    queryset = ToDoListModel.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return ToDoListCreateSerializer
+        return ToDoListReadSerializer
+
+
+@api_view(['GET'])
+def todo_list_group_todos(request, todo_list_group_pk=None):
+    todo_list_group = ToDoListGroupModel.objects.filter(pk=todo_list_group_pk).first()
+    if not todo_list_group:
+        return Response(status=HTTP_404_NOT_FOUND)
+    serializer = ToDoListReadSerializer(instance=todo_list_group.todo_lists, many=True)
+    return Response(serializer.data)

@@ -13,3 +13,8 @@ class TaskModelAdmin(admin.ModelAdmin):
 class ToDoListModelAdmin(admin.ModelAdmin):
     list_filter = ('name',)
     search_fields = ('name',)
+
+
+@admin.register(models.ToDoListGroupModel)
+class ToDoListGroupModelAdmin(admin.ModelAdmin):
+    search_fields = ('description',)

@@ -1,8 +1,22 @@
 from django.db import models
 
 
+class ToDoListGroupModel(models.Model):
+    description = models.CharField(max_length=500)
+
+    @property
+    def short_description(self):
+        if len(self.description) <= 50:
+            return self.description
+        return self.description[:47] + '...'
+
+    def __str__(self):
+        return f'To Do List Group #{self.id} - {self.short_description}'
+
+
 class ToDoListModel(models.Model):
     name = models.CharField(max_length=50)
+    todo_list_group = models.ForeignKey(ToDoListGroupModel, models.CASCADE, related_name='todo_lists')
 
     class Meta:
         verbose_name = 'To Do list'
