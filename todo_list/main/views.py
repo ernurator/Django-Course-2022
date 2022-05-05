@@ -1,3 +1,5 @@
+import logging
+
 from django.http import Http404
 from django.shortcuts import render
 
@@ -9,6 +11,8 @@ from rest_framework.status import HTTP_404_NOT_FOUND
 
 from .models import TaskModel, ToDoListModel, ToDoListGroupModel
 from .serializers import TaskSerializer, ToDoListReadSerializer, ToDoListCreateSerializer, ToDoListGroupModelSerializer
+
+logger = logging.getLogger(__name__)
 
 
 def get_todo_list_items(todo_list_id, get_done_items=False):
@@ -78,6 +82,8 @@ class ToDoListViewSet(viewsets.ModelViewSet):
 def todo_list_group_todos(request, todo_list_group_pk=None):
     todo_list_group = ToDoListGroupModel.objects.filter(pk=todo_list_group_pk).first()
     if not todo_list_group:
+        logger.error(f'To Do List group with id {todo_list_group_pk} not found')
         return Response(status=HTTP_404_NOT_FOUND)
+    logger.info(f'Processing {todo_list_group}')
     serializer = ToDoListReadSerializer(instance=todo_list_group.todo_lists, many=True)
     return Response(serializer.data)

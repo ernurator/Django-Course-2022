@@ -32,6 +32,7 @@ class TaskModel(models.Model):
     due_to = models.DateTimeField()
     owner = models.CharField(max_length=50)  # TODO: change to django user
     is_done = models.BooleanField()
+    image = models.ImageField(null=True)
     todo_list = models.ForeignKey(ToDoListModel, models.CASCADE, related_name='tasks')
 
     class Meta:
